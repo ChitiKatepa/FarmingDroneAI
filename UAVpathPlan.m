@@ -38,3 +38,9 @@ geoplot(wp(:,1),wp(:,2),LineWidth=1.5);
 geoplot(takeoff(1),takeoff(2),MarkerSize=25,Marker=".")
 legend("","","Path","Takeoff/Landing")
 hold off
+
+%%
+%exporting the path of the drone
+exportWaypointsPlan(cp,soln,"coveragepath.waypoints",ReferenceFrame="NED")
+mission = uavMission(PlanFile="coveragepath.waypoints",Speed=5,InitialYaw=90);
+exampleHelperSimulateUAVMission(mission,geocenter)
