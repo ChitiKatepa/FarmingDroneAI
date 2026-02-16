@@ -1,5 +1,6 @@
 %Using the dimensions of the corn fields on my farm for the first sweep.
 %Simple geometry and easy to model
+%Using my actual farm geometry
 mwLS = [-15.501882, 28.696511 0];
 latlim = [-15.502691 -15.501307];
 lonlim = [28.695588 28.697498];
