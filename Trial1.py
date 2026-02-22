@@ -22,6 +22,10 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Activation, Dropout, BatchNormalization
 from tensorflow.keras import regularizers
 
+from keras.applications import VGG16
+from keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
+from keras.models import Model
+
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -90,9 +94,6 @@ for i in range(16):
 plt.show()
 
 #Using VGG16bc its "easier"
-from keras.applications import VGG16
-from keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
-from keras.models import Model
 
 vgg16_base = VGG16(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
 vgg16_base.trainable = False
@@ -116,5 +117,6 @@ vgg16_model.fit(train_gen, epochs=3, validation_data=valid_gen)
 
 test_loss, test_acc = vgg16_model.evaluate(test_gen, verbose=0)
 print('\naccuracy:', test_acc, '  loss: ',test_loss)
+
 
 
