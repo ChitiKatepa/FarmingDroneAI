@@ -13,11 +13,15 @@ model = VGG16(weights='imagenet')
 
 explainer = lime.lime_image.LimeImageExplainer()
 
-img = np.array(Image.open('/kaggle/input/corn-or-maize-leaf-disease-dataset/data/Common_Rust/Corn_Common_Rust (100).JPG').resize((224, 224)))
+#resizing bc vgg16 uses a 224x224 pixel input
+img = np.array(Image.open('any one of the images from the file or my own/internet').resize((224, 224)))
 img = preprocess_input(img)
 
+#will actually show how the model picked out the diseased zone
 explanation = explainer.explain_instance(img, model.predict, top_labels=5, hide_color=0, num_samples=1000)
 
+#superimposes the explanation onto the image
 temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], positive_only=True, num_features=5, hide_rest=False)
 plt.axis('off')
+
 plt.imshow(mark_boundaries(temp / 2 + 0.5, mask))
