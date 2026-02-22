@@ -89,72 +89,6 @@ for i in range(16):
     plt.axis('off')
 plt.show()
 
-#kernels of the images for training purposes
-#Using a CNN
-model = Sequential()
-
-model.add(tf.keras.layers.InputLayer(input_shape=(224, 224, 3)))
-
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))  
-model.add(BatchNormalization())
-
-
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))  
-model.add(BatchNormalization())
-
-
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))  
-model.add(BatchNormalization())
-model.add(Dropout(0.25))
-
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2))) 
-model.add(BatchNormalization())
-model.add(Dropout(0.25))
-
-model.add(Conv2D(filters=64, kernel_size=(3, 3), strides=(1, 1), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2)))  
-model.add(BatchNormalization())
-model.add(Dropout(0.25))
-
-model.add(Flatten())  
-
-model.add(Dropout(0.3))  
-
-model.add(Dense(128, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.0001)))
-
-
-model.add(Dense(4, activation='softmax', kernel_regularizer=tf.keras.regularizers.l2(0.0001)))
-
-#Callback and compilation of the code
-class myCallback(tf.keras.callbacks.Callback):
-    def on_epoch_end(self, epoch, logs={}):
-        if(logs.get('val_accuracy') > 0.98):
-            print("\nReached 98% accuracy so cancelling training!")
-            self.model.stop_training = True
-
-callbacks = myCallback()
-
-model.compile(optimizer=Adamax(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
-
-history = model.fit(
-    train_gen,
-    epochs=100,
-    batch_size=32,
-    verbose=1,
-    validation_data=valid_gen,
-    callbacks=[callbacks]
-)
-
-model.save('model2.h5')
-
 #Using VGG16bc its "easier"
 from keras.applications import VGG16
 from keras.layers import Input, GlobalAveragePooling2D, Dense, Dropout
@@ -182,4 +116,5 @@ vgg16_model.fit(train_gen, epochs=3, validation_data=valid_gen)
 
 test_loss, test_acc = vgg16_model.evaluate(test_gen, verbose=0)
 print('\naccuracy:', test_acc, '  loss: ',test_loss)
+
 
